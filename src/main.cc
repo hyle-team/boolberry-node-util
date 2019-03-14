@@ -145,8 +145,6 @@ void get_pow_hash(const Nan::FunctionCallbackInfo<v8::Value>& args) {
     uint32_t input_len = Buffer::Length(target);
     uint64_t spad_len = Buffer::Length(target_spad);
 
-
-    //boolberry_hash(input, input_len, scratchpad, spad_len, output, height);
     crypto::wild_keccak_dbl_opt(reinterpret_cast<const uint8_t*>(input), input_len,
             reinterpret_cast<uint8_t *>(&output[0]), sizeof(output), 
             (const UINT64*)&scratchpad[0], spad_len/8);
@@ -155,6 +153,33 @@ void get_pow_hash(const Nan::FunctionCallbackInfo<v8::Value>& args) {
 
     SET_BUFFER_RETURN(output, 32);
 }
+
+
+void get_id_hash(const Nan::FunctionCallbackInfo<v8::Value>& args) {
+
+    if (args.Length() < 1)
+        return THROW_ERROR_EXCEPTION("You must provide two arguments.");
+
+    Local<Object> target = args[0]->ToObject();
+
+    if(!Buffer::HasInstance(target))
+        return THROW_ERROR_EXCEPTION("Argument 1 should be a buffer object.");
+
+
+    char * input = Buffer::Data(target);
+    
+    crypto::hash h = AUTO_VAL_INIT(h);
+    char* output = reinterpret_cast<char* >(&h);
+
+    uint32_t input_len = Buffer::Length(target);
+
+    crypto::cn_fast_hash(input, input_len, h);
+
+    v8::Isolate* isolate = args.GetIsolate();
+
+    SET_BUFFER_RETURN(output, 32);
+}
+
 
 
 NAN_MODULE_INIT(init) {
