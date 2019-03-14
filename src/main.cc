@@ -65,9 +65,13 @@ NAN_METHOD(convert_blob) {
     );
 }
 
-/*
+
 void get_block_id(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+
+    return THROW_ERROR_EXCEPTION("You must provide one argument.");
+}
+/*
     if (info.Length() < 1)
         return THROW_ERROR_EXCEPTION("You must provide one argument.");
 
@@ -94,9 +98,12 @@ void get_block_id(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     );
 }
 */
-/*
+
 void construct_block_blob(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+    return THROW_ERROR_EXCEPTION("You must provide two arguments.");
+}
+/*
     if (info.Length() < 2)
         return THROW_ERROR_EXCEPTION("You must provide two arguments.");
 
@@ -129,9 +136,12 @@ void construct_block_blob(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 */
 
 
-/*
+
 void construct_block_blob_fa(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+    return THROW_ERROR_EXCEPTION("You must provide two arguments.");
+}
+/*
     if (info.Length() < 2)
         return THROW_ERROR_EXCEPTION("You must provide two arguments.");
 
@@ -175,12 +185,14 @@ void construct_block_blob_fa(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 }
 */
 
-/*
+
 void convert_blob_bb(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+    return THROW_ERROR_EXCEPTION("You must provide one argument.");
+}
+/*
     if (info.Length() < 1)
         return THROW_ERROR_EXCEPTION("You must provide one argument.");
-
     Local<Object> target = info[0]->ToObject();
 
     if (!Buffer::HasInstance(target))
@@ -247,9 +259,12 @@ void address_decode(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     }
 }
 
-/*
+
 void address_decode_integrated(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
+    return THROW_ERROR_EXCEPTION("You must provide one argument.");
+}
+/*
     if (info.Length() < 1)
         return THROW_ERROR_EXCEPTION("You must provide one argument.");
 
@@ -283,12 +298,12 @@ void address_decode_integrated(const Nan::FunctionCallbackInfo<v8::Value>& info)
 */
 
 NAN_MODULE_INIT(init) {
-    //Nan::Set(target, Nan::New("construct_block_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(construct_block_blob)).ToLocalChecked());
-    //Nan::Set(target, Nan::New("get_block_id").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_block_id)).ToLocalChecked());
+    Nan::Set(target, Nan::New("construct_block_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(construct_block_blob)).ToLocalChecked());
+    Nan::Set(target, Nan::New("get_block_id").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_block_id)).ToLocalChecked());
     Nan::Set(target, Nan::New("convert_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob)).ToLocalChecked());
-    //Nan::Set(target, Nan::New("convert_blob_bb").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob_bb)).ToLocalChecked());
+    Nan::Set(target, Nan::New("convert_blob_bb").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob_bb)).ToLocalChecked());
     Nan::Set(target, Nan::New("address_decode").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode)).ToLocalChecked());
-    //Nan::Set(target, Nan::New("address_decode_integrated").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode_integrated)).ToLocalChecked());
+    Nan::Set(target, Nan::New("address_decode_integrated").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode_integrated)).ToLocalChecked());
 }
 
 NODE_MODULE(cryptonote, init)
