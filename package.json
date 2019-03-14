@@ -1,5 +1,5 @@
 {
-    "name": "cryptonote-util",
+    "name": "currency-util",
     "version": "0.0.1",
     "main": "cryptonote",
     "author": {
