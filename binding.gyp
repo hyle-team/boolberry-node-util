@@ -13,6 +13,9 @@
                 "src/crypto/random.c",
                 "src/crypto/keccak.c",
                 "src/crypto/wild_keccak.cpp",
+                "src/crypto/alt/KeccakNISTInterface.c",
+                "src/crypto/alt/KeccakSponge.c",
+                "src/crypto/alt/KeccakF-1600-opt64.c",
                 "src/common/base58.cpp",
             ],
             "include_dirs": [
