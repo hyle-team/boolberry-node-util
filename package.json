@@ -2,10 +2,13 @@
   "name": "currency-util",
   "version": "0.0.1",
   "main": "cryptonote",
-  "author": "",
+  "author": {
+    "name": "LucasJones, CryptoZoidberg",
+    "email": "lucasjonesdev@hotmail.co.uk, crypto.zoidberg@gmail.com"
+},
   "repository": {
     "type": "git",
-    "url": "https://github.com/AlekseiBo/node-cryptonote-util.git"
+    "url": "https://github.com/hyle-team/boolberry-node-util.git"
   },
   "dependencies": {
     "bindings": "*",
@@ -13,6 +16,7 @@
   },
   "keywords": [
     "cryptonight",
-    "cryptonote"
+    "cryptonote",
+    "boolberry"
   ]
 }
