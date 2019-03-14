@@ -12,6 +12,7 @@
                 "src/crypto/hash.c",
                 "src/crypto/random.c",
                 "src/crypto/keccak.c",
+                "src/crypto/wild_keccak.cpp",
                 "src/common/base58.cpp",
             ],
             "include_dirs": [
