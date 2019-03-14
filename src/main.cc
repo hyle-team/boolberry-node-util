@@ -38,49 +38,6 @@ blobdata uint64be_to_blob(uint64_t num) {
 }
 
 
-/*static bool fillExtra(currency::block& block1, const currency::block& block2) {
-    currency::tx_extra_merge_mining_tag mm_tag;
-    mm_tag.depth = 0;
-    if (!currency::get_block_header_hash(block2, mm_tag.merkle_root))
-        return false;
-
-    block1.miner_tx.extra.clear();
-    if (!currency::append_mm_tag_to_extra(block1.miner_tx.extra, mm_tag))
-        return false;
-
-    return true;
-}*/
-
-/*static bool mergeBlocks(const currency::block& block1, currency::block& block2, const std::vector<crypto::hash>& branch2) {
-    block2.timestamp = block1.timestamp;
-    block2.parent_block.major_version = block1.major_version;
-    block2.parent_block.minor_version = block1.minor_version;
-    block2.parent_block.prev_id = block1.prev_id;
-    block2.parent_block.nonce = block1.nonce;
-    block2.parent_block.miner_tx = block1.miner_tx;
-    block2.parent_block.number_of_transactions = block1.tx_hashes.size() + 1;
-    block2.parent_block.miner_tx_branch.resize(crypto::tree_depth(block1.tx_hashes.size() + 1));
-    std::vector<crypto::hash> transactionHashes;
-    transactionHashes.push_back(currency::get_transaction_hash(block1.miner_tx));
-    std::copy(block1.tx_hashes.begin(), block1.tx_hashes.end(), std::back_inserter(transactionHashes));
-    tree_branch(transactionHashes.data(), transactionHashes.size(), block2.parent_block.miner_tx_branch.data());
-    block2.parent_block.blockchain_branch = branch2;
-    return true;
-}*/
-
-/*
-static bool construct_parent_block(const currency::block& b, currency::block& parent_block) {
-    parent_block.major_version = 1;
-    parent_block.minor_version = 0;
-    parent_block.timestamp = b.timestamp;
-    parent_block.prev_id = b.prev_id;
-    parent_block.nonce = b.parent_block.nonce;
-    parent_block.miner_tx.version = CURRENT_TRANSACTION_VERSION;
-    parent_block.miner_tx.unlock_time = 0;
-
-    return fillExtra(parent_block, b);
-}
-*/
 
 NAN_METHOD(convert_blob) {
 
@@ -108,48 +65,7 @@ NAN_METHOD(convert_blob) {
     );
 }
 
-NAN_METHOD(convert_blob_fa) {
-
-    if (info.Length() < 1)
-        return THROW_ERROR_EXCEPTION("You must provide one argument.");
-
-    Local<Object> target = info[0]->ToObject();
-
-    if (!Buffer::HasInstance(target))
-        return THROW_ERROR_EXCEPTION("Argument should be a buffer object.");
-
-    blobdata input = std::string(Buffer::Data(target), Buffer::Length(target));
-    blobdata output = "";
-
-    //convert
-    block b = AUTO_VAL_INIT(b);
-    if (!parse_and_validate_block_from_blob(input, b))
-        return THROW_ERROR_EXCEPTION("Failed to parse block");
-
-    //if (b.major_version < BLOCK_MAJOR_VERSION_2) {
-    output = get_block_hashing_blob(b);
-
-    /*} else {
-        block parent_block;
-        if (!construct_parent_block(b, parent_block))
-            return THROW_ERROR_EXCEPTION("Failed to construct parent block");
-
-        if (!get_block_hashing_blob(parent_block, output))
-            return THROW_ERROR_EXCEPTION("Failed to create mining block");
-    }*/
-
-//    Local<Object> v8::Local<v8::Value> returnValue =  Nan::NewBuffer(output.length()).ToLocalChecked();
-//    memcpy(Buffer::Data(returnValue), output.c_str(), output.length());
-//    info.GetReturnValue().Set(
-//        returnValue
-//    );
-    
-    v8::Local<v8::Value> returnValue = Nan::CopyBuffer((char*)output.data(), output.size()).ToLocalChecked();
-    info.GetReturnValue().Set(
-        returnValue
-    );
-}
-
+/*
 void get_block_id(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
     if (info.Length() < 1)
@@ -177,7 +93,8 @@ void get_block_id(const Nan::FunctionCallbackInfo<v8::Value>& info) {
         returnValue
     );
 }
-
+*/
+/*
 void construct_block_blob(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
     if (info.Length() < 2)
@@ -209,7 +126,10 @@ void construct_block_blob(const Nan::FunctionCallbackInfo<v8::Value>& info) {
         returnValue
     );
 }
+*/
 
+
+/*
 void construct_block_blob_fa(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
     if (info.Length() < 2)
@@ -243,7 +163,7 @@ void construct_block_blob_fa(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
         if (!mergeBlocks(parent_block, b, std::vector<crypto::hash>()))
             return THROW_ERROR_EXCEPTION("Failed to postprocess mining block");
-    }*/
+    }*\
 
     if (!block_to_blob(b, output))
         return THROW_ERROR_EXCEPTION("Failed to convert block to blob");
@@ -253,6 +173,7 @@ void construct_block_blob_fa(const Nan::FunctionCallbackInfo<v8::Value>& info) {
         returnValue
     );
 }
+*/
 
 /*
 void convert_blob_bb(const Nan::FunctionCallbackInfo<v8::Value>& info) {
@@ -326,6 +247,7 @@ void address_decode(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     }
 }
 
+/*
 void address_decode_integrated(const Nan::FunctionCallbackInfo<v8::Value>& info) {
 
     if (info.Length() < 1)
@@ -358,15 +280,15 @@ void address_decode_integrated(const Nan::FunctionCallbackInfo<v8::Value>& info)
 
     info.GetReturnValue().Set(Nan::New(static_cast<uint32_t>(prefix)));
 }
-
+*/
 
 NAN_MODULE_INIT(init) {
-    Nan::Set(target, Nan::New("construct_block_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(construct_block_blob)).ToLocalChecked());
-    Nan::Set(target, Nan::New("get_block_id").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_block_id)).ToLocalChecked());
+    //Nan::Set(target, Nan::New("construct_block_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(construct_block_blob)).ToLocalChecked());
+    //Nan::Set(target, Nan::New("get_block_id").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_block_id)).ToLocalChecked());
     Nan::Set(target, Nan::New("convert_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob)).ToLocalChecked());
     //Nan::Set(target, Nan::New("convert_blob_bb").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob_bb)).ToLocalChecked());
     Nan::Set(target, Nan::New("address_decode").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode)).ToLocalChecked());
-    Nan::Set(target, Nan::New("address_decode_integrated").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode_integrated)).ToLocalChecked());
+    //Nan::Set(target, Nan::New("address_decode_integrated").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode_integrated)).ToLocalChecked());
 }
 
 NODE_MODULE(cryptonote, init)
