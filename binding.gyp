@@ -5,7 +5,6 @@
       "sources": [
         "src/main.cc",
         "src/currency_core/currency_format_utils.cpp",
-        "src/currency_core/currency_format_utils_blocks.cpp",
         "src/crypto/tree-hash.c",
         "src/crypto/crypto.cpp",
         "src/crypto/crypto-ops.c",
