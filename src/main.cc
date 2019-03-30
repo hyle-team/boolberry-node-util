@@ -110,6 +110,33 @@ void address_decode(const Nan::FunctionCallbackInfo<v8::Value>& info) {
     }
 }
 
+
+void is_address_valid(const Nan::FunctionCallbackInfo<v8::Value>& info) 
+{
+
+    if (info.Length() < 1)
+        return THROW_ERROR_EXCEPTION("You must provide one argument.");
+
+    Local<Object> target = info[0]->ToObject();
+
+    if (!Buffer::HasInstance(target))
+        return THROW_ERROR_EXCEPTION("Argument should be a buffer object.");
+
+    blobdata input = std::string(Buffer::Data(target), Buffer::Length(target));
+
+    account_public_address adr;
+    bool r = get_account_address_from_str(adr, input);
+    if(!r)
+    {
+       info.GetReturnValue().Set(Nan::Undefined());
+    }
+    else
+    {
+       info.GetReturnValue().Set(Nan::True());
+    }
+}
+
+
 //#define SET_BUFFER_RETURN(x, len) \
 //    args.GetReturnValue().Set(Buffer::Copy(isolate, x, len).ToLocalChecked());
 
@@ -185,6 +212,7 @@ void get_id_hash(const Nan::FunctionCallbackInfo<v8::Value>& args) {
 NAN_MODULE_INIT(init) {
     Nan::Set(target, Nan::New("convert_blob").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(convert_blob)).ToLocalChecked());
     Nan::Set(target, Nan::New("address_decode").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(address_decode)).ToLocalChecked());
+    Nan::Set(target, Nan::New("is_address_valid").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(is_address_valid)).ToLocalChecked());
     Nan::Set(target, Nan::New("get_pow_hash").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_pow_hash)).ToLocalChecked());
     Nan::Set(target, Nan::New("get_id_hash").ToLocalChecked(), Nan::GetFunction(Nan::New<FunctionTemplate>(get_id_hash)).ToLocalChecked());
 }
